@@ -4,10 +4,12 @@ import { Worker as ThreadWorker } from 'node:worker_threads';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
+import { installDomHelpers } from '../tests/dom-helpers.mjs';
 
 // Exercise the actual distributable main.js, not its TypeScript entry point.
 // Obsidian's host API is simulated; DOM, KaTeX and the embedded worker run for real.
 const dom = new JSDOM('<!doctype html><body></body>');
+installDomHelpers(dom.window);
 const blobs = new Map();
 let serial = 0, workerCount = 0, terminated = 0, lastModel;
 class BrowserWorkerBridge {
@@ -18,6 +20,7 @@ class BrowserWorkerBridge {
     this.ready = blobs.get(url).text().then(code => {
       if (this.stopped) return;
       const prelude = `const {parentPort}=require('node:worker_threads');
+        globalThis.self=globalThis;
         globalThis.postMessage=data=>parentPort.postMessage(data);
         parentPort.on('message',data=>globalThis.onmessage({data}));\n`;
       this.worker = new ThreadWorker(prelude + code, { eval: true });
