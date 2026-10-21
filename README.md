@@ -2,11 +2,11 @@
 
 在 Obsidian 内点击文本形式的 Wolfram Mathematica `.nb` 文件，直接阅读单元、中文教学注释、常见公式和原始源码。支持库内任意目录的 `.nb` 文件，命令选择器优先列出 `Reference_code/` 目录。
 
-**版本 1.0.2；桌面端；最低声明版本 Obsidian 1.5.0。** 使用 1.14.4 官方 API 类型构建。最低版本依据所用 API 的可用性设定，尚未在 1.5.0 真机运行验证。无需安装 Mathematica、Wolfram Engine 或 Node.js 即可安装成品。
+**版本 1.0.3；桌面端；最低声明版本 Obsidian 1.5.0。** 使用 1.14.4 官方 API 类型构建。最低版本依据所用 API 的可用性设定，尚未在 1.5.0 真机运行验证。无需安装 Mathematica、Wolfram Engine 或 Node.js 即可安装成品。
 
 ## 1. 安装成品（推荐）
 
-1. 从本仓库的 [Releases](https://github.com/qieyifengzhi/obsidian-mathematica-notebook-viewer/releases) 下载 `mathematica-notebook-viewer-1.0.2-install.zip`，解压后找到 `mathematica-notebook-viewer` 文件夹。
+1. 从本仓库的 [Releases](https://github.com/qieyifengzhi/obsidian-mathematica-notebook-viewer/releases) 下载 `mathematica-notebook-viewer-1.0.3-install.zip`，解压后找到 `mathematica-notebook-viewer` 文件夹。
 2. 在 **Obsidian 当前打开的库的根目录** 下找到 `.obsidian/plugins/`。如果没有 `plugins`，手动新建。
 3. 将整个文件夹放入其中，确认结构如下。避免多套一层同名目录。
 

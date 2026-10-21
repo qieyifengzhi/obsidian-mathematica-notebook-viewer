@@ -1,5 +1,9 @@
 # 更新记录
 
+## 1.0.3
+
+- 按社区插件目录规范调整公开简介，功能与 1.0.2 相同。
+
 ## 1.0.2
 
 - 支持无参数、无自定义选项的 Reals、Integers、Rationals、Complexes 标准 TemplateBox。
