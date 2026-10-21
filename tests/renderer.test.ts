@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { parseNotebook } from '../src/parser';
 import { NotebookPane } from '../src/renderer';
 import { LIMITS } from '../src/types';
+import { installDomHelpers } from './dom-helpers.mjs';
 
 function pane(source: string) {
   const root = document.createElement('div');
@@ -15,6 +16,19 @@ function click(root: HTMLElement, label: string) {
   expect(button, label).toBeTruthy(); button!.click();
 }
 describe('safe read-only DOM rendering', () => {
+  it('creates all notebook DOM in the owning document of a separate window', () => {
+    const frame = document.createElement('iframe'); document.body.appendChild(frame);
+    try {
+      const win = frame.contentWindow!;
+      installDomHelpers(win);
+      const root = win.document.createElement('div'), p = new NotebookPane(root);
+      p.setSource('Notebook[{Cell["separate window", "Text"]}]', 'demo.nb');
+      p.result(parseNotebook('Notebook[{Cell["separate window", "Text"]}]'));
+      expect(root.textContent).toContain('separate window');
+      expect([...root.querySelectorAll('*')].every(el => el.ownerDocument === win.document)).toBe(true);
+      expect(root.querySelector('button')).toBeInstanceOf((win as any).HTMLButtonElement);
+    } finally { frame.remove(); }
+  });
   it('shows Chinese input comments, inline KaTeX and collapsed groups', () => {
     const { root } = pane(readFileSync('tests/fixtures/demo.nb', 'utf8'));
     expect(root.textContent).toContain('中文教学注释');

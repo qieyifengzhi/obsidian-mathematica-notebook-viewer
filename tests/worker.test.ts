@@ -17,6 +17,16 @@ function setup() {
 }
 describe('worker lifetime and timeout', () => {
   afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); FakeWorker.instances = []; });
+  it('uses the supplied host window for timeout creation and cancellation', async () => {
+    setup();
+    const set = vi.fn(() => 42), clear = vi.fn();
+    const client = new ParseClient({ setTimeout: set, clearTimeout: clear } as unknown as Window);
+    const promise = client.parse('Notebook[{}]');
+    expect(set).toHaveBeenCalledWith(expect.any(Function), LIMITS.workerMs);
+    client.cancel();
+    expect((await promise).ok).toBe(false);
+    expect(clear).toHaveBeenCalledWith(42);
+  });
   it('terminates and revokes the Blob after success', async () => {
     const { client, revoke } = setup(), promise = client.parse('Notebook[{}]'), worker = FakeWorker.instances[0];
     worker.onmessage!({ data: { ok: true, model: {} } }); expect((await promise).ok).toBe(true);
