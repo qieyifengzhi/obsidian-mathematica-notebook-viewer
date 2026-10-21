@@ -1,12 +1,33 @@
-# Mathematica Notebook Viewer：Obsidian 只读插件
+# Mathematica Notebook Viewer
+
+Read text-based Wolfram Mathematica notebooks directly in Obsidian. This desktop plugin opens .nb files in a dedicated read-only view, preserving Chinese annotations, cells, groups, and original source. Common mathematical boxes and supported Input/Output expressions are typeset with offline KaTeX. The plugin does not evaluate Wolfram code or write to notebook files.
+
+## English quick start
+
+1. Download the installation ZIP from [GitHub Releases](https://github.com/qieyifengzhi/obsidian-mathematica-notebook-viewer/releases).
+2. Extract the mathematica-notebook-viewer folder into your vault's .obsidian/plugins/ directory, then enable the plugin under Community plugins. Back up an existing installation before replacing it.
+3. Enable “Show all file types” in Obsidian if .nb files are hidden. Click a notebook, use the open-notebook command, or choose the read-only notebook action in the file menu.
+4. Switch between rendered content and original source, expand cell source, or disable mathematical previews. Changes saved by another application refresh the view automatically.
+
+The plugin reads only selected notebooks. The file picker enumerates vault file paths to list .nb files; Reference_code/ entries are shown first. There is no telemetry, account requirement, network access, external file access, or paid feature. Fonts and the parser worker are bundled.
+
+**Limits:** Only text-form notebooks are supported. Graphics, dynamic content, custom templates, unsupported code, and oversized formulas use source fallback. Existing Output cells are historical saved results; the viewer cannot verify or recompute them. Files over 12 MiB are not read. Parsing runs in a cancellable worker with time, depth, and node limits; displayed content is paginated. See the detailed Chinese sections below for exact limits and supported boxes.
+
+**Compatibility and validation:** Desktop only, declared minimum Obsidian 1.5.0. This minimum has not been tested on a real 1.5.0 installation. Automated tests and the built-bundle smoke test pass using a simulated Obsidian API, JSDOM, real KaTeX, and embedded workers. Full native Obsidian desktop acceptance remains outstanding. See [TESTING.md](TESTING.md).
+
+**Build:** Use Node.js 22 or newer, run npm ci, npm test, and npm run test:bundle. npm run package creates installable files and a source package under dist/. See the Chinese instructions below for full build, installation, troubleshooting, and uninstallation steps. MIT licensed; keep LICENSE and THIRD_PARTY_NOTICES.md when redistributing.
+
+---
+
+## 中文使用说明
 
 在 Obsidian 内点击文本形式的 Wolfram Mathematica `.nb` 文件，直接阅读单元、中文教学注释、常见公式和原始源码。支持库内任意目录的 `.nb` 文件，命令选择器优先列出 `Reference_code/` 目录。
 
-**版本 1.0.3；桌面端；最低声明版本 Obsidian 1.5.0。** 使用 1.14.4 官方 API 类型构建。最低版本依据所用 API 的可用性设定，尚未在 1.5.0 真机运行验证。无需安装 Mathematica、Wolfram Engine 或 Node.js 即可安装成品。
+**版本 1.0.4；桌面端；最低声明版本 Obsidian 1.5.0。** 使用 1.14.4 官方 API 类型构建。最低版本依据所用 API 的可用性设定，尚未在 1.5.0 真机运行验证。无需安装 Mathematica、Wolfram Engine 或 Node.js 即可安装成品。
 
 ## 1. 安装成品（推荐）
 
-1. 从本仓库的 [Releases](https://github.com/qieyifengzhi/obsidian-mathematica-notebook-viewer/releases) 下载 `mathematica-notebook-viewer-1.0.3-install.zip`，解压后找到 `mathematica-notebook-viewer` 文件夹。
+1. 从本仓库的 [Releases](https://github.com/qieyifengzhi/obsidian-mathematica-notebook-viewer/releases) 下载 `mathematica-notebook-viewer-1.0.4-install.zip`，解压后找到 `mathematica-notebook-viewer` 文件夹。
 2. 在 **Obsidian 当前打开的库的根目录** 下找到 `.obsidian/plugins/`。如果没有 `plugins`，手动新建。
 3. 将整个文件夹放入其中，确认结构如下。避免多套一层同名目录。
 
@@ -37,7 +58,7 @@ Windows 安装路径示例：
 C:\你的库\.obsidian\plugins\mathematica-notebook-viewer\
 ```
 
-请以你在 Obsidian 实际打开的库为准。安装时若目标已有同 ID 插件，请先备份旧插件目录，再明确选择是否升级，不要直接合并未知文件。本仓库提供手动安装包，尚未收录于 Obsidian 官方社区插件目录。
+请以你在 Obsidian 实际打开的库为准。安装时若目标已有同 ID 插件，请先备份旧插件目录，再明确选择是否升级，不要直接合并未知文件。本仓库提供手动安装包；社区目录状态以 [插件页面](https://community.obsidian.md/plugins/mathematica-notebook-viewer) 为准，自动审核完成前可能无法通过目录安装。
 
 ## 2. 使用方法
 

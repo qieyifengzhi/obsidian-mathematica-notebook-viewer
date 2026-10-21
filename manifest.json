@@ -1,7 +1,7 @@
 {
   "id": "mathematica-notebook-viewer",
   "name": "Mathematica Notebook Viewer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "minAppVersion": "1.5.0",
   "description": "Read Mathematica notebooks with formatted formulas, Chinese annotations, and a read-only source view.",
   "author": "Notebook Viewer Contributors",
