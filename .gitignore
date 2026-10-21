@@ -1,0 +1,12 @@
+node_modules/
+/main.js
+/styles.css
+dist/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.*
+local-notebook-check*.json
+SHA256SUMS.txt

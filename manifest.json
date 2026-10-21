@@ -1,0 +1,9 @@
+{
+  "id": "mathematica-notebook-viewer",
+  "name": "Mathematica Notebook Viewer",
+  "version": "1.0.2",
+  "minAppVersion": "1.5.0",
+  "description": "只读查看 Wolfram Mathematica .nb：中文注释、常见公式、分组及源码回退。",
+  "author": "Notebook Viewer Contributors",
+  "isDesktopOnly": true
+}
