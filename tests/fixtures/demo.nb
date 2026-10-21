@@ -1,0 +1,17 @@
+(* Minimal independent example; does not contain the user's research code. *)
+Notebook[{
+ Cell["中文教学示例：只读 Notebook", "Title"],
+ Cell[CellGroupData[{
+  Cell["一、利润与采购量", "Section"],
+  Cell[TextData[{"约束：", Cell[BoxData[FractionBox[RowBox[{"b", "-", "cr"}], RowBox[{"2", " ", "\[Gamma]"}]]]], "；γ > 0。"}], "Text"],
+  Cell[BoxData[RowBox[{"(* 中文教学注释：市场采购为正的可行区域。\n历史输出不代表本次计算。 *)", "\[IndentingNewLine]", "Reduce", "[", FractionBox["1", "2"], " ", RowBox[{"(", "b", "-", "cr", "-", RowBox[{"2", " ", "qba", " ", "\[Gamma]"}], ")"}], ">", "0", "&&", "0", "<", "cr", "<", "b", "&&", "\[Gamma]", ">", "0", ",", "qba", "]"}]], "Input", CellLabel->"In[1]:="],
+  Cell[BoxData[RowBox[{"b", "-", "cr", "-", RowBox[{"2", " ", "\[Gamma]", " ", "qba"}]}]], "Output", CellLabel->"Out[1]="],
+  Cell[BoxData[FractionBox[RowBox[{SuperscriptBox["x", "2"], "+", SubscriptBox["q", "a"]}], SqrtBox["y"]]], "Output"],
+  Cell[BoxData[StyleBox[FormBox[SubsuperscriptBox["q", "a", "2"], TraditionalForm], FontColor->RGBColor[1,0,0]]], "Output"]
+ }, Open]],
+ Cell[CellGroupData[{
+  Cell["二、复杂对象的源码回退", "Section"],
+  Cell[BoxData[GraphicsBox[{DiskBox[{0,0},1]}]], "Output"],
+  Cell["<script>alert('不会执行')</script> 与 [[链接]] 均按普通文本显示。", "Text"]
+ }, Closed]]
+}, WindowSize->{1000, 800}]
