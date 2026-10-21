@@ -26,10 +26,8 @@ export class NotebookPane {
   private collapsed = new Set<number>();
   private path = '';
   private math = true;
-  private readonly doc: Document;
 
   constructor(private root: HTMLElement) {
-    this.doc = root.ownerDocument;
     root.classList.add('mnb-viewer');
     root.setAttribute('aria-label', 'Mathematica Notebook 只读查看器');
   }
@@ -63,14 +61,13 @@ export class NotebookPane {
     } else this.model = undefined;
     this.render();
   }
-  private el<K extends keyof HTMLElementTagNameMap>(tag: K, parent: Node, text?: string, cls?: string): HTMLElementTagNameMap[K] {
-    const node = this.doc.createElement(tag);
+  private el<K extends keyof HTMLElementTagNameMap>(tag: K, parent: HTMLElement, text?: string, cls?: string): HTMLElementTagNameMap[K] {
+    const node = parent.createEl(tag);
     if (text !== undefined) node.textContent = text;
     if (cls) node.className = cls;
-    parent.appendChild(node);
     return node;
   }
-  private button(parent: Node, text: string, click: () => void, disabled = false) {
+  private button(parent: HTMLElement, text: string, click: () => void, disabled = false) {
     const button = this.el('button', parent, text);
     button.type = 'button'; button.disabled = disabled;
     button.addEventListener('click', click);
@@ -99,14 +96,14 @@ export class NotebookPane {
     else if (this.problem && this.source) this.el('p', this.root, '源码仍可安全查看；此错误不会修改文件。');
     this.root.scrollTop = scrollTop;
   }
-  private pager(parent: Node, page: number, pages: number, set: (n: number) => void, label: string) {
+  private pager(parent: HTMLElement, page: number, pages: number, set: (n: number) => void, label: string) {
     const nav = this.el('div', parent, undefined, 'mnb-pager');
     nav.setAttribute('aria-label', label);
     this.button(nav, '上一页', () => set(page - 1), page === 0);
     this.el('span', nav, `第 ${page + 1} / ${pages} 页`);
     this.button(nav, '下一页', () => set(page + 1), page >= pages - 1);
   }
-  private sourceView(parent: Node, source: string, local: boolean) {
+  private sourceView(parent: HTMLElement, source: string, local: boolean) {
     const pages = Math.max(1, Math.ceil(source.length / LIMITS.sourcePageChars));
     let page = local ? 0 : Math.min(this.sourcePage, pages - 1);
     const host = this.el('div', parent, undefined, 'mnb-source-host');
@@ -205,7 +202,7 @@ export class NotebookPane {
         this.sourceView(details, this.source.slice(cell.from, cell.to), true);
     });
   }
-  private renderMath(parent: Node, tex: string, display: boolean, fallback?: string) {
+  private renderMath(parent: HTMLElement, tex: string, display: boolean, fallback?: string) {
     const host = this.el('span', parent, undefined, 'mnb-formula');
     try {
       katex.render(tex, host, {

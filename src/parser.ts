@@ -108,7 +108,7 @@ export class Reader {
           parts.push(this.node(ch === '{' ? 'list' : 'paren', at, args));
         }
       } else {
-        while (this.pos < s.length && !/[\s,\[\]{}()"]/.test(s[this.pos])) {
+        while (this.pos < s.length && !/[\s,[\]{}()"]/.test(s[this.pos])) {
           this.check();
           if (s.startsWith('\\[', this.pos)) {
             const end = s.indexOf(']', this.pos + 2);

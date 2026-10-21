@@ -7,22 +7,25 @@ export const VIEW_TYPE = 'mathematica-notebook-viewer';
 
 /** FileView intentionally avoids TextFileView/EditableFileView's save and rename lifecycle. */
 export class NotebookView extends FileView {
-  private parser = new ParseClient();
+  private parser: ParseClient;
+  private readonly hostWindow: Window;
   private pane: NotebookPane;
   private target: TFile | null = null;
   private revision = 0;
-  private debounce?: ReturnType<typeof setTimeout>;
+  private debounce?: number;
 
   constructor(leaf: WorkspaceLeaf) {
     super(leaf);
+    this.hostWindow = this.contentEl.ownerDocument.defaultView ?? window;
+    this.parser = new ParseClient(this.hostWindow);
     this.pane = new NotebookPane(this.contentEl);
     this.registerEvent(this.app.vault.on('modify', file => {
       if (file !== this.target) return;
       // Invalidate a read/parse immediately, before the debounce window.
       this.revision++;
       this.parser.cancel();
-      if (this.debounce) clearTimeout(this.debounce);
-      this.debounce = setTimeout(() => { void this.reload(false); }, 250);
+      if (this.debounce) this.hostWindow.clearTimeout(this.debounce);
+      this.debounce = this.hostWindow.setTimeout(() => { void this.reload(false); }, 250);
     }));
     this.register(() => this.dispose());
   }
@@ -43,7 +46,7 @@ export class NotebookView extends FileView {
   async onClose(): Promise<void> { this.target = null; this.dispose(); this.pane.clear(); }
   private dispose() {
     this.revision++;
-    if (this.debounce) clearTimeout(this.debounce);
+    if (this.debounce) this.hostWindow.clearTimeout(this.debounce);
     this.debounce = undefined;
     this.parser.cancel();
   }

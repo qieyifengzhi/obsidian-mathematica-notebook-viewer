@@ -62,7 +62,7 @@ export function textToTex(text: string): string {
   let result = '';
   for (const ch of text) {
     if (TEX_SYMBOLS[ch]) result += `{${TEX_SYMBOLS[ch]}}`;
-    else if (/[A-Za-z0-9+\-=.,:;!?()\[\]|/<>]/.test(ch)) result += ch;
+    else if (/[A-Za-z0-9+\-=.,:;!?()[\]|/<>]/.test(ch)) result += ch;
     else if (/\s/.test(ch)) result += '\\, ';
     else if (ch === '\\') result += '{\\backslash}';
     else if ('{}_$%&#'.includes(ch)) result += `\\${ch}`;
