@@ -1,4 +1,5 @@
 # 源码导航
+
 - `main.ts`：只读视图、文件事件、命令及扩展名注册。
 - `parser.ts`、`notebook.ts`、`strings.ts`：Notebook 结构、box 转换、字符串解码。
 - `code-math.ts`：受限的代码公式排版，不执行 Wolfram 计算。
